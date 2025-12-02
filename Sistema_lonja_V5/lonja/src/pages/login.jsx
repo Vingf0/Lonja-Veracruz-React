@@ -14,7 +14,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("http://localhost:4000/api/validar-credenciales", {
+      const { data } = await axios.post("https://lonja-api.onrender.com/api/validar-credenciales", {
         correo,
         contraseña
       });
