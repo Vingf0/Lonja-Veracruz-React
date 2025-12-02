@@ -1,0 +1,78 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Fragment } from "react";
+import RutaProtegida from "./component/RutaProtegida";
+import Login from "./pages/login";
+
+//import Header from "./component/layout/Header"
+import Navegacion from "./component/layout/Navegacion"
+
+import Compras from "./component/compra/Compras";
+import NuevaCompra from "./component/compra/NuevaCompra";
+import EditarCompra from "./component/compra/EditarCompra";
+
+import Compradores from "./component/comprador/Compradores";
+import NuevoComprador from "./component/comprador/NuevoComprador";
+import EditarComprador from "./component/comprador/EditarComprador";
+
+import Especies from "./component/especie/Especies";
+import NuevaEspecie from "./component/especie/NuevaEspecie";
+import EditarEspecie from "./component/especie/EditarEspecie";
+
+import Lotes from "./component/lote/Lotes";
+import NuevoLote from "./component/lote/NuevoLote";
+import EditarLote from "./component/lote/EditarLote";
+
+import Tipos from "./component/tipo/Tipos";
+import NuevoTipo from "./component/tipo/NuevoTipo";
+import EditarTipo from "./component/tipo/EditarTipo";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Fragment>
+
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+
+          <Route 
+            path="/*"
+            element={
+              <RutaProtegida>
+                <div className="grid contenedor contenido-principal">
+                  <Navegacion />
+                  <main className="caja-contenido col-9">
+                    <Routes>
+                      <Route path='/compra' element={<Compras />} />
+                      <Route path='/compra/nueva' element={<NuevaCompra />} />
+                      <Route path='/compra/editar/:id' element={<EditarCompra />} />
+
+                      <Route path='/compradores' element={<Compradores />} />
+                      <Route path='/comprador/nuevo' element={<NuevoComprador />} />
+                      <Route path='/comprador/editar/:id' element={<EditarComprador />} />
+
+                      <Route path='/especies' element={<Especies />} />
+                      <Route path='/especie/nueva' element={<NuevaEspecie />} />
+                      <Route path='/especie/editar/:id' element={<EditarEspecie />} />
+
+                      <Route path='/lotes' element={<Lotes />} />
+                      <Route path='/lote/nuevo' element={<NuevoLote />} />
+                      <Route path='/lote/editar/:id' element={<EditarLote />} />
+
+                      <Route path='/tipos' element={<Tipos />} />
+                      <Route path='/tipo/nuevo' element={<NuevoTipo />} />
+                      <Route path='/tipo/editar/:id' element={<EditarTipo />} />
+                    </Routes>
+                  </main>
+                </div>
+              </RutaProtegida>
+            }
+          />
+        </Routes>
+
+      </Fragment>
+    </BrowserRouter>
+  );
+}
+
+export default App;

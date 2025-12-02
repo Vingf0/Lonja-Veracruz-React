@@ -1,0 +1,7 @@
+Usuario:       admin_uno@lonja.com
+Contraseña:    contraseña_admin_uno
+Rol:           admin
+
+Usuario:       vendedor_uno@lonja.com
+Contraseña:    contraseña_vendedor_uno
+Rol:           vendedor
