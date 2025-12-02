@@ -14,7 +14,6 @@ function NuevaEspecie() {
     });
 
     const [tipos, setTipos] = useState([]);
-    const API_BASE_URL = process.env.REACT_APP_API_URL;
 
     // Cargar lista de tipos desde backend
     useEffect(() => {
