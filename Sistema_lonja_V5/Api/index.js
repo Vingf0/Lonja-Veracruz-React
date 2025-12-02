@@ -4,26 +4,46 @@ import mongoose from "mongoose"
 import cors from "cors"
 import dotenv from "dotenv";
 
-//cargar variables de entorno
+// 1. Cargar variables de entorno (si usas un archivo .env local)
 dotenv.config()
 
+// 2. Definir el puerto usando la variable de entorno de Render
+const PORT = process.env.PORT || 4000; 
+const MONGO_URI = process.env.MONGO_URI; 
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
+
+// 3. Conexión a la base de datos con manejo de errores
 mongoose.Promise=global.Promise
-//mongoose.connect('mongodb://localhost/lonja')
-mongoose.connect('mongodb+srv://floresortunoirving_db_user:1234@lonjacluster.xaw9cvc.mongodb.net/lonja?appName=LonjaCluster')
 
-const app=express()
+// Usa la variable de entorno MONGO_URI
+mongoose.connect(MONGO_URI)
+    .then(() => {
+        console.log('✅ Conexión a MongoDB Atlas exitosa.');
+        
+        const app=express()
 
-//accesos json
-app.use(express.json())
+        // 4. Configuración de CORS con origen dinámico
+        app.use(cors({
+            origin: FRONTEND_URL,
+            methods: ['GET', 'POST', 'PUT', 'DELETE'],
+            allowedHeaders: ['Content-Type', 'Authorization']
+        }));
 
-//accesos a los datos del formulario
-app.use(express.urlencoded({extended:true}))
+        // Accesos middleware
+        app.use(express.json())
+        app.use(express.urlencoded({extended:true}))
+        
+        // Rutas
+        app.use("/api",router)
 
-//Corse para recibir ...
-app.use(cors({
-  origin: 'http://localhost:3000'  // solo tu React
-}));
+        // 5. Iniciar el servidor SOLO después de conectar la DB
+        app.listen(PORT, () => {
+            console.log(`🚀 API escuchando en el puerto ${PORT}`);
+        });
 
-app.use("/api",router)
-
-app.listen(4000)
+    })
+    .catch(error => {
+        console.error('❌ FATAL ERROR: Error al conectar a MongoDB Atlas:', error.message);
+        // Detener el despliegue si no hay DB
+        process.exit(1); 
+    });
